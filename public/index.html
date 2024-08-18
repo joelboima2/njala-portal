@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Njala Mokonde Portal</title>
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            --secondary-color: #45a049;
+            --background-color: #f4f4f4;
+            --text-color: #333;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding-top: 20px;
+            color: var(--text-color);
+            background-color: #001f3f;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 2px;
+            border-radius: 15px;
+            margin-bottom: 20px;   
+           
+        }
+
+        h1, h2, h3 {
+            text-align: center;
+            color: var(--text-color);
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid lightblue;
+            border-radius: 4px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: navy;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: var(--secondary-color);
+        }
+
+        #gradesDisplay, #newsDisplay {
+            margin-top: 20px;
+        }
+
+        .news-item {
+            background-color: #f9f9f9;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            transition: transform 0.3s ease;
+        }
+
+        .news-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .loader {
+            border: 5px solid blue;
+            border-top: 5px solid var(--primary-color);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+            display: none;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .notification {
+            padding: 15px;
+            background-color: #f44336;
+            color: white;
+            opacity: 0.83;
+            transition: opacity 0.6s;
+            margin-bottom: 15px;
+        }
+
+        #adminLink {
+            display: block;
+            text-align: center;
+            margin: 20px 0;
+            font-size: 18px;
+            color: blue;
+            cursor: pointer;
+        }
+
+        #adminForm {
+            display: none;
+            margin-top: 20px;
+        }
+
+        #chatContainer {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #f4f4f4;
+        }
+
+        #chatDisplay {
+            height: 200px;
+            overflow-y: auto;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            padding: 5px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .chat-message {
+            padding: 8px;
+            border-radius: 10px;
+            position: relative;
+            max-width: 70%;
+        }
+
+        .chat-message.admin {
+            background-color: #d1e7dd;
+            align-self: flex-start;
+        }
+
+        .chat-message.student {
+            background-color: #cfe2ff;
+            align-self: flex-end;
+        }
+
+        #chatInput {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid lightblue;
+        }
+
+        #sendChat {
+            background-color: navy;
+            color: white;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+            width: 100%;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+        #loginContainer{
+            margin-top:120px;
+            
+        }
+       .njala{
+           width:60px;
+           position: relative;
+           bottom:37px;
+           left:140px;
+       }
+       
+       
+       
+      .graduationcap1{
+          width:50px;
+          position: relative;
+          top:20px;
+      }
+      
+      #loginId{
+          width:200px;
+      }
+      #loginform{
+          display:flex;
+      }
+      .side{
+          width:105px;
+          border-top-right-radius:20px;
+          border-bottom-right-radius:20px;
+      }
+       
+        #sendChat:hover {
+            background-color: var(--secondary-color);
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+            }
+
+            h1, h2, h3 {
+                font-size: 1.5em;
+            }
+        
+    </style>
+</head>
+<body>
+    <div id="loginContainer" class="container">
+        <img class="njala" src="Njala.jpg" alt="">
+        <h1><span><img class="graduationcap1" src="graduationcap1.jpg" alt=""> Njala portal</span></h1>
+        <div class="loginform">  
+            <input type="text" id="loginId" placeholder="Enter your Student Id">
+            <button class="side" onclick="login()">Login</button>
+        </div>
+        <div id="loginNotification"></div>
+    </div>
+
+    <div id="mainPortal" class="container" style="display: none;">
+        <h1>Njala Portal</h1>
+        <div id="welcomeMessage"></div>
+        
+        <div class="tab">
+            <button class="tablinks" onclick="openTab(event, 'Grades')">Grades</button>
+            <button class="tablinks" onclick="openTab(event, 'News')">University News</button>
+            <button class="tablinks" onclick="openTab(event, 'Complaints')">Submit Complaint</button>
+            <button class="tablinks" onclick="openTab(event, 'Chat')">Chat Room</button>
+            <button class="tablinks" onclick="logout()">Logout</button>
+        </div>
+
+        <div id="Grades" class="tabcontent">
+            <h2>Student Grade Lookup</h2>
+            <button onclick="fetchGrades()">Get Your Grades</button>
+            <div class="loader" id="gradesLoader"></div>
+            <div id="gradesDisplay"></div>
+        </div>
+
+        <div id="News" class="tabcontent">
+            <h2>University News</h2>
+            <div class="loader" id="newsLoader"></div>
+            <div id="newsDisplay"></div>
+        </div>
+
+        <div id="Complaints" class="tabcontent" style="display: none;">
+            <h2>Submit a Complaint</h2>
+            <textarea id="complaintContent" placeholder="Describe your complaint here..."></textarea>
+            <button onclick="submitComplaint()">Submit Complaint</button>
+            <div id="complaintNotification"></div>
+        </div>
+
+        <div id="Chat" class="tabcontent" style="display: none;">
+            <h2>Chat Room</h2>
+            <div id="chatContainer">
+                <div id="chatDisplay"></div>
+                <input type="text" id="chatInput" placeholder="Type your message here...">
+                <button id="sendChat" onclick="sendChat()">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="adminContainer" class="container" style="display: none;">
+        <div id="adminLink" onclick="toggleAdminForm()">Admin Access</div>
+        <div id="adminForm">
+            <h2>Admin Panel</h2>
+            <input type="password" id="adminPassword" placeholder="Enter admin password">
+            <button onclick="checkAdminPassword()">Login as Admin</button>
+            <div id="adminPanel" style="display: none;">
+                <h3>Add New Admin</h3>
+                <input type="text" id="newAdminName" placeholder="Admin Name">
+                <input type="password" id="newAdminPassword" placeholder="Admin Password">
+                <button onclick="addAdmin()">Add Admin</button>
+
+                <h3>Add/Edit Student</h3>
+                <input type="text" id="studentId" placeholder="Student ID">
+                <input type="text" id="studentName" placeholder="Student Name">
+                <input type="text" id="studentGrades" placeholder="Grades (e.g., TMath:A,Electronics:B)">
+                <button onclick="updateStudent()">Update Student</button>
+
+                <h3>Remove Student</h3>
+                <input type="text" id="removeStudentId" placeholder="Student ID to remove">
+                <button onclick="removeStudent()">Remove Student</button>
+
+                <h3>Add News</h3>
+                <input type="text" id="newsTitle" placeholder="News Title">
+                <textarea id="newsContent" placeholder="News Content"></textarea>
+                <button onclick="addNews()">Add News</button>
+
+                <h3>Delete News</h3>
+                <input type="text" id="deleteNewsTitle" placeholder="Title of News to Delete">
+                <button onclick="deleteNews()">Delete News</button>
+
+                <h3>View Complaints</h3>
+                <div id="complaintsDisplay"></div>
+            </div>
+            <div id="adminNotification"></div>
+        </div>
+    </div>
+
+    <script>
+        async function fetchData(endpoint) {
+            const response = await fetch(endpoint);
+            return await response.json();
+        }
+
+        async function postData(endpoint, data) {
+            const response = await fetch(endpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+            return await response.json();
+        }
+
+        async function login() {
+            const loginId = document.getElementById('loginId').value;
+            const data = await postData('/login', { loginId });
+
+            if (data.success) {
+                currentStudent = data.student;
+                document.getElementById('loginContainer').style.display = 'none';
+                document.getElementById('mainPortal').style.display = 'block';
+                document.getElementById('adminContainer').style.display = 'none'; // Hide admin section on student login
+                document.getElementById('welcomeMessage').innerHTML = `<h2>Welcome, ${currentStudent.name}!</h2>`;
+                document.getElementsByClassName("tablinks")[0].click();
+            } else {
+                showNotification(data.message, 'warning');
+            }
+        }
+
+        async function fetchGrades() {
+            document.getElementById('gradesLoader').style.display = 'block';
+            document.getElementById('gradesDisplay').innerHTML = '';
+
+            const data = await fetchData(`/grades?studentId=${currentStudent.id}`);
+
+            document.getElementById('gradesLoader').style.display = 'none';
+            if (data.success) {
+                let gradesHtml = '<h3>Your Grades:</h3>';
+                for (const [subject, grade] of Object.entries(data.grades)) {
+                    gradesHtml += `<p>${subject}: ${grade}</p>`;
+                }
+                document.getElementById('gradesDisplay').innerHTML = gradesHtml;
+            } else {
+                document.getElementById('gradesDisplay').innerHTML = '<p>Unable to fetch grades. Please try again.</p>';
+            }
+        }
+
+        async function displayNews() {
+            document.getElementById('newsLoader').style.display = 'block';
+            document.getElementById('newsDisplay').innerHTML = '';
+
+            const data = await fetchData('/news');
+
+            document.getElementById('newsLoader').style.display = 'none';
+            if (data.success) {
+                let newsHtml = '';
+                data.news.forEach(item => {
+                    newsHtml += `
+                        <div class="news-item">
+                            <h3>${item.title}</h3>
+                            <p>${item.content}</p>
+                        </div>
+                    `;
+                });
+                document.getElementById('newsDisplay').innerHTML = newsHtml;
+            } else {
+                document.getElementById('newsDisplay').innerHTML = '<p>Unable to fetch news. Please try again.</p>';
+            }
+        }
+
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+
+            if (tabName === 'News') {
+                displayNews();
+            } else if (tabName === 'Complaints') {
+                document.getElementById('complaintNotification').innerHTML = ''; // Clear previous notifications
+            } else if (tabName === 'Chat') {
+                displayChatMessages();
+            }
+        }
+
+        async function submitComplaint() {
+            const content = document.getElementById('complaintContent').value;
+            const data = await postData('/complaint', { studentId: currentStudent.id, content });
+
+            if (data.success) {
+                showNotification('Complaint submitted successfully', 'success', 'complaintNotification');
+            } else {
+                showNotification('Failed to submit complaint', 'error', 'complaintNotification');
+            }
+        }
+
+        async function displayChatMessages() {
+            const data = await fetchData('/chat');
+
+            if (data.success) {
+                let chatHtml = '';
+                data.messages.forEach(message => {
+                    chatHtml += `<p><strong>${message.sender}</strong>: ${message.text}</p>`;
+                });
+                document.getElementById('chatDisplay').innerHTML = chatHtml;
+            } else {
+                document.getElementById('chatDisplay').innerHTML = '<p>Unable to fetch chat messages. Please try again.</p>';
+            }
+        }
+
+        async function sendChat() {
+            const message = document.getElementById('chatInput').value;
+            const data = await postData('/chat', { studentId: currentStudent.id, message });
+
+            if (data.success) {
+                displayChatMessages();
+                document.getElementById('chatInput').value = '';
+            } else {
+                showNotification('Failed to send message', 'error', 'chatNotification');
+            }
+        }
+
+        async function logout() {
+            currentStudent = null;
+            document.getElementById('loginContainer').style.display = 'block';
+            document.getElementById('mainPortal').style.display = 'none';
+            showNotification('You have been logged out', 'success', 'loginNotification');
+        }
+
+        function showNotification(message, type, containerId = 'loginNotification') {
+            const container = document.getElementById(containerId);
+            container.innerHTML = `<div class="notification ${type}">${message}</div>`;
+            setTimeout(() => container.innerHTML = '', 3000);
+        }
+    </script>
+</body>
+</html>
